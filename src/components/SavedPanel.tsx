@@ -58,7 +58,7 @@ export function SavedPanel({
             onChange={(e) => setText(e.target.value)}
             spellCheck={false}
             placeholder="Saqlangan gaplar shu yerda matn bo‘lib chiqadi."
-            className="bg-surface border-line text-ink focus:border-brass-2 min-h-[110px] w-full resize-y rounded-xl border px-3.5 py-2.5 text-[0.95rem] leading-relaxed outline-none"
+            className="bg-surface border-line text-ink focus:border-accent-soft min-h-[110px] w-full resize-y rounded-xl border px-3.5 py-2.5 text-[0.95rem] leading-relaxed outline-none"
           />
           <div className="flex flex-wrap gap-2">
             <ActionButton onClick={() => onCopy(text)} className="min-w-[120px] flex-1">
@@ -98,7 +98,6 @@ export function SavedPanel({
               key={e.ru}
               ru={e.ru}
               uz={e.uz}
-              color="var(--brass)"
               saved
               onPick={() => onPick(e)}
               onToggleSave={() => onToggleSave(e.ru, e.uz)}

@@ -8,9 +8,9 @@ export function StatusStrip({ online }: StatusStripProps) {
   return (
     <div
       role="status"
-      className="border-brass-line bg-warn text-ink flex items-center gap-2.5 rounded-xl border px-3 py-2.5 text-[0.85rem]"
+      className="border-accent-line bg-tint text-ink flex items-center gap-2.5 rounded-xl border px-3 py-2.5 text-[0.85rem]"
     >
-      <span className="bg-brass block h-2 w-2 shrink-0 rounded-full" />
+      <span className="bg-accent block h-2 w-2 shrink-0 rounded-full" />
       <span>
         <b className="font-bold">Internetsiz rejim.</b> Lug‘at, saqlangan gaplar va so‘zma-so‘z
         tarjima ishlayapti.

@@ -47,7 +47,7 @@ export const WORDS: Record<string, string> = {
   "uy": "дом", "kvartira": "квартира", "xona": "комната", "hojatxona": "туалет",
   "hammom": "ванная", "ishxona": "офис", "zavod": "завод", "qurilish": "стройка",
   "bekat": "остановка", "vokzal": "вокзал", "aeroport": "аэропорт", "metro": "метро",
-  "ko‘cha": "улица", "maydon": "площадь", "park": "парк", "bog‘": "сад",
+  "ko‘cha": "улица", "shahar maydoni": "площадь", "park": "парк", "bog‘": "сад",
   "yer": "место", "shahar": "город", "qishloq": "деревня", "mamlakat": "страна",
 
   // transport
@@ -127,6 +127,31 @@ export const WORDS: Record<string, string> = {
   "yop-": "закрыть", "boshla-": "начать", "tugat-": "закончить", "sev-": "любить",
   "xohla-": "хотеть", "kerak": "нужно", "mumkin": "можно", "yordam ber-": "помочь",
   "chaqir-": "вызвать", "to‘xta-": "остановиться", "bo‘l-": "быть",
+
+  // kompyuter va 1C
+  "dastur": "программа", "kod": "код", "xato": "ошибка", "fayl": "файл",
+  "papka": "папка", "tugma": "кнопка", "oyna": "окно", "ekran": "экран",
+  "sichqoncha": "мышка", "klaviatura": "клавиатура", "parol": "пароль",
+  "login": "логин", "server": "сервер", "baza": "база", "jadval": "таблица",
+  "maydon": "поле", "satr": "строка", "ustun": "колонка", "hisobot": "отчёт",
+  "sozlama": "настройка", "yangilanish": "обновление", "versiya": "версия",
+  "saqlash": "сохранить", "o‘chirish": "удалить", "qo‘shish": "добавить",
+  "tahrirlash": "редактировать", "qidirish": "поиск", "chop etish": "печать",
+  "yuklab olish": "скачать", "tekshirish": "проверить", "ulanish": "подключение",
+  "kirish": "вход", "chiqish": "выход", "tizim": "система", "hisob yozuvi": "учётная запись",
+
+  // ish jarayoni va buxgalteriya
+  "ombor": "склад", "qoldiq": "остаток", "kirim": "приход", "chiqim": "расход",
+  "tannarx": "себестоимость", "mijoz": "клиент", "yetkazib beruvchi": "поставщик",
+  "buyurtma": "заказ", "yetkazib berish": "доставка", "to‘lov": "оплата",
+  "summa": "сумма", "miqdor": "количество", "chegirma": "скидка", "solig‘i": "налог",
+  "buxgalteriya": "бухгалтерия", "omborchi": "кладовщик", "boshqaruv": "управление",
+
+  // o'qish
+  "dars": "занятие", "o‘qituvchi": "преподаватель", "talaba": "студент",
+  "kurs": "курс", "vazifa": "задание", "misol": "пример", "qo‘llanma": "инструкция",
+  "amaliyot": "практика", "savol": "вопрос", "javob": "ответ", "mavzu": "тема",
+  "daftar": "тетрадь", "imtihon": "экзамен", "guruh": "группа",
 
   // xushmuomalalik
   "rahmat": "спасибо", "iltimos": "пожалуйста", "kechirasiz": "извините",

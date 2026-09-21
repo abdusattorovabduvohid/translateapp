@@ -32,7 +32,7 @@ export function Tabs({ active, onChange, counts }: TabsProps) {
             }`}
           >
             {LABELS[id]}
-            <b className="text-brass font-sans text-[0.72rem] font-bold tabular-nums">
+            <b className="text-accent font-sans text-[0.72rem] font-bold tabular-nums">
               {counts[id]}
             </b>
           </button>

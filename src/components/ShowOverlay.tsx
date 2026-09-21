@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import type { Translation } from "../lib/types";
+import { hintOf, outputOf, type Translation } from "../lib/types";
 
 interface ShowOverlayProps {
   result: Translation;
@@ -28,15 +28,11 @@ export function ShowOverlay({ result, onClose }: ShowOverlayProps) {
       onClick={onClose}
       className="bg-ground fixed inset-0 z-50 flex flex-col items-center justify-center gap-6 px-6 py-7 text-center"
     >
-      <span
-        aria-hidden="true"
-        className="border-brass-line pointer-events-none absolute inset-3.5 rounded-2xl border opacity-50"
-      />
       <p className="font-ru text-ink m-0 max-w-[16ch] text-[clamp(2rem,10.5vw,4rem)] leading-tight tracking-tight text-balance">
-        {result.ru}
+        {outputOf(result)}
       </p>
-      <p className="text-faint m-0 text-[0.95rem]">{result.uz}</p>
-      <span className="font-display text-brass absolute bottom-8 text-[0.68rem] tracking-[0.18em] uppercase">
+      <p className="text-faint m-0 text-[0.95rem]">{hintOf(result)}</p>
+      <span className="text-faint absolute bottom-8 text-[0.68rem] tracking-[0.18em] uppercase">
         Yopish uchun bosing
       </span>
     </div>

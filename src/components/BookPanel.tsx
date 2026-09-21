@@ -32,8 +32,8 @@ export function BookPanel({ isSaved, onPick, onToggleSave }: BookPanelProps) {
     });
   }, [query, filter]);
 
-  const chips: Array<{ id: Filter; name: string; color: string }> = [
-    { id: "all", name: "Hammasi", color: "var(--faint)" },
+  const chips: Array<{ id: Filter; name: string }> = [
+    { id: "all", name: "Hammasi" },
     ...CATEGORIES,
   ];
 
@@ -45,7 +45,7 @@ export function BookPanel({ isSaved, onPick, onToggleSave }: BookPanelProps) {
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Qidirish: taksi, hisob, shifokor…"
         autoComplete="off"
-        className="bg-surface border-line text-ink focus:border-brass-2 min-h-11 w-full rounded-xl border px-3.5 text-[0.95rem] outline-none"
+        className="bg-surface border-line text-ink focus:border-accent-soft min-h-11 w-full rounded-xl border px-3.5 text-[0.95rem] outline-none"
       />
 
       <div className="no-scrollbar flex gap-1.5 overflow-x-auto pb-1">
@@ -57,11 +57,10 @@ export function BookPanel({ isSaved, onPick, onToggleSave }: BookPanelProps) {
               type="button"
               aria-pressed={on}
               onClick={() => setFilter(c.id)}
-              className={`inline-flex min-h-9 shrink-0 items-center gap-[7px] rounded-full border px-3 text-[0.84rem] font-semibold transition-colors ${
-                on ? "bg-ink text-ground border-ink" : "bg-surface border-line text-muted"
+              className={`inline-flex min-h-9 shrink-0 items-center rounded-full border px-3.5 text-[0.84rem] font-semibold transition-colors ${
+                on ? "bg-accent text-on-accent border-accent" : "bg-surface border-line text-muted"
               }`}
             >
-              <i style={{ background: c.color }} className="block h-2 w-2 rounded-full" />
               {c.name}
             </button>
           );
@@ -80,7 +79,6 @@ export function BookPanel({ isSaved, onPick, onToggleSave }: BookPanelProps) {
               key={`${p.category.id}:${p.uz}`}
               ru={p.ru}
               uz={p.back}
-              color={p.category.color}
               saved={isSaved(p.ru)}
               onPick={() => onPick(p)}
               onToggleSave={() => onToggleSave(p.ru, p.back)}

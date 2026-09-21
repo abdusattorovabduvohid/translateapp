@@ -1,12 +1,23 @@
 # Moskva Cho'ntak Tarjimon
 
-O'zbekchadan ruschaga tarjimon. Kirill yoki lotin yozuvida yozasiz — ruscha javob chiqadi,
-tagida o'sha ruscha gapning o'zbekcha ma'nosi turadi:
+O'zbekcha ↔ ruscha tarjimon. Kirill yoki lotin — farqi yo'q.
+
+**O'zbekchadan ruschaga:** ruscha javob chiqadi, tagida o'sha gapning o'zbekcha ma'nosi.
 
 ```
-Сколько это стоит?
-bu qancha turadi?
+bu qancha turadi?  →   Сколько это стоит?
+                       bu qancha turadi?
 ```
+
+**Ruschadan o'zbekchaga:** o'zbekcha javob chiqadi, tagida ruschasi.
+
+```
+Сколько это стоит? →   bu qancha turadi?
+                       Сколько это стоит?
+```
+
+Yo'nalishni yuqoridagi tugmadan tanlaysiz. Noto'g'ri tomonga yozib yuborsangiz,
+ilova matnni tanib, yo'nalishni **o'zi to'g'irlaydi**.
 
 **Texnologiya:** React 19 · TypeScript · Vite 7 · Tailwind CSS 4 · PWA (Workbox)
 
@@ -16,8 +27,9 @@ bu qancha turadi?
 
 Ilova internetga bog'liq emas. Birinchi marta ochganingizdan keyin hamma narsa telefonda qoladi:
 
-- **90 ta tayyor gap** — cho'ntak lug'at
-- **~330 ta so'z** — lug'atda yo'q gapni so'zma-so'z tarjima qiladi
+- **158 ta tayyor gap** — ikki tomondan ham qidiriladi (shundan 77 tasi 1C darsi va atamalari)
+- **450 ta so'z** — ikki tomonlama; lug'atda yo'q gapni so'zma-so'z tarjima qiladi
+  (ruschada so'z o'zagi bo'yicha ham qidiradi: «хлеба» → «хлеб» → *non*)
 - **Shriftlar ilova ichida** — Google'ga chiqmaydi, Rossiyada bloklansa ham ko'rinishi buzilmaydi
 - **Saqlangan gaplar** va **tarix** — telefon xotirasida
 - **Ovoz (Eshitish)** — telefonning o'z ovoz motori
@@ -27,8 +39,27 @@ Internet yo'qligini o'zi sezadi va tepada «Internetsiz rejim» deb yozib qo'yad
 **VPN bilan:** har bir internet so'roviga 9 soniyalik chek qo'yilgan. Javob kelmasa kutib
 o'tirmaydi — darrov telefonning o'z lug'atiga o'tadi va tarjimani baribir beradi.
 
+## 1C ERP uchun
+
+Lug'atda ikkita alohida bo'lim bor:
+
+- **1C darsi** — darsda kerak bo'ladigan gaplar: «Объясните помедленнее», «Покажите ещё раз»,
+  «Здесь выходит ошибка», «Где это найти?», «Можно записать?» va boshqalar.
+- **1C atamalari** — 51 ta atama ruscha ko'rinishida, tagida o'zbekcha izohi bilan:
+
+  | Ruscha | O'zbekcha izoh |
+  |---|---|
+  | Справочник | ma'lumotnoma — mijozlar, tovarlar ro'yxati |
+  | Проводка | provodka — schyotlar bo'yicha yozuv |
+  | Регистр накопления | to'planma registr — qoldiq va aylanma |
+  | Табличная часть | jadval qismi — hujjatdagi qatorlar |
+  | Обработка | ishlov — maxsus vazifa bajaruvchi dastur |
+
+  Darsda notanish atama eshitsangiz — «Rus → O'zb» rejimida yozasiz, izohi chiqadi.
+
 ## Nimalar bor
 
+- **Yo'nalish tugmasi** — «O'zb → Rus» / «Rus → O'zb», tanlovingiz eslab qolinadi.
 - **★ Saqlash** — doimiy ishlatadigan gaplaringiz «Saqlangan» bo'limida turadi.
 - **Zaxira** — saqlangan gaplarni matn qilib nusxalaysiz (Telegramga tashlang), keyin tiklaysiz.
 - **Ko'rsatish** — ruscha gapni butun ekranga katta qilib chiqaradi.
@@ -46,13 +77,14 @@ src/
     words.ts            so'zlar lug'ati
   lib/
     uzbek.ts            kirill→lotin, indeks, qo'shimcha kesish, so'zma-so'z
+    russian.ts          teskari indeks, ruscha o'zak, yo'nalishni aniqlash
     translate.ts        onlayn zanjir + VPN uchun vaqt cheki
     claude.ts           claude.ai ichidagi sample imkoniyati
     device.ts           ovoz va nusxa olish
     types.ts
   hooks/
     useLocalStorage.ts  useOnline.ts  useInstall.ts
-  components/           Masthead, Composer, ResultPlate, PhraseRow,
+  components/           Composer, DirectionSwitch, ResultPlate, PhraseRow,
                         BookPanel, SavedPanel, HistoryPanel, Tabs, ShowOverlay …
   fonts/                woff2 (Vite bundle qiladi)
   index.css             palitra (3 ta mavzu holati) + Tailwind tokenlari

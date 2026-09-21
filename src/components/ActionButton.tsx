@@ -24,7 +24,7 @@ export function ActionButton({
   const tone = done
     ? "text-ok border-ok"
     : active
-      ? "text-brass border-brass-line"
+      ? "text-accent border-accent-line"
       : "text-muted border-line";
 
   return (

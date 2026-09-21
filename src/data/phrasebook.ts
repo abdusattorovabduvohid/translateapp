@@ -1,10 +1,9 @@
-/**
- * Cho'ntak lug'at — Moskvada kerak bo'ladigan tayyor gaplar.
- * Kategoriya ranglari Moskva metro liniyalaridan olingan.
- */
+/** Cho'ntak lug'at — Moskvada kerak bo'ladigan tayyor gaplar. */
 
 export type CategoryId =
   | "salom"
+  | "odc"
+  | "atama"
   | "dokon"
   | "yol"
   | "ovqat"
@@ -15,8 +14,6 @@ export type CategoryId =
 export interface Category {
   id: CategoryId;
   name: string;
-  /** CSS o'zgaruvchisi — metro liniyasi rangi */
-  color: string;
 }
 
 export interface PhraseSeed {
@@ -42,7 +39,6 @@ const SEED: CategorySeed[] = [
   {
     id: "salom",
     name: "Salomlashish",
-    color: "var(--color-m-red)",
     items: [
       { uz: "salom", ru: "Здравствуйте", back: "assalomu alaykum", alt: ["assalomu alaykum", "assalom", "salom alaykum"] },
       { uz: "xayrli tong", ru: "Доброе утро", back: "xayrli tong", alt: ["hayrli tong"] },
@@ -67,9 +63,97 @@ const SEED: CategorySeed[] = [
     ],
   },
   {
+    id: "odc",
+    name: "1C darsi",
+    items: [
+      { uz: "sekinroq tushuntiring", ru: "Объясните помедленнее, пожалуйста", back: "iltimos, sekinroq tushuntiring", alt: ["sekin tushuntiring"] },
+      { uz: "takrorlab bering", ru: "Повторите, пожалуйста", back: "iltimos, takrorlang", alt: ["takrorlang", "qaytaring"] },
+      { uz: "yana bir marta ko‘rsating", ru: "Покажите ещё раз, пожалуйста", back: "iltimos, yana bir marta ko‘rsating", alt: ["yana korsating"] },
+      { uz: "men tushunmadim", ru: "Я не понял", back: "men tushunmadim" },
+      { uz: "men tushundim", ru: "Я понял", back: "men tushundim", alt: ["tushundim"] },
+      { uz: "bu nima degani", ru: "Что это значит?", back: "bu nima degani?", alt: ["nima degani"] },
+      { uz: "bu qanday ishlaydi", ru: "Как это работает?", back: "bu qanday ishlaydi?" },
+      { uz: "misol ko‘rsating", ru: "Покажите пример, пожалуйста", back: "iltimos, misol ko‘rsating", alt: ["misol"] },
+      { uz: "qayerdan topaman", ru: "Где это найти?", back: "buni qayerdan topaman?", alt: ["qayerdan topaman"] },
+      { uz: "qaysi bo‘limda", ru: "В каком разделе?", back: "qaysi bo‘limda?", alt: ["qaysi razdelda"] },
+      { uz: "qo‘llanma bormi", ru: "Есть документация?", back: "qo‘llanma (hujjat) bormi?", alt: ["instruksiya bormi", "dokumentatsiya"] },
+      { uz: "yozib olsam bo‘ladimi", ru: "Можно записать?", back: "yozib olsam bo‘ladimi?", alt: ["yozib olsam"] },
+      { uz: "video yozib olsam bo‘ladimi", ru: "Можно записать видео?", back: "video yozib olsam bo‘ladimi?" },
+      { uz: "ekranni ko‘rsating", ru: "Покажите экран, пожалуйста", back: "iltimos, ekranni ko‘rsating", alt: ["ekran"] },
+      { uz: "men yangi boshlovchiman", ru: "Я начинающий", back: "men yangi boshlovchiman", alt: ["yangi boshlovchiman", "yangiman"] },
+      { uz: "vazifa bormi", ru: "Есть задание?", back: "vazifa bormi?", alt: ["zadaniya bormi"] },
+      { uz: "uyga vazifa", ru: "Домашнее задание", back: "uyga vazifa" },
+      { uz: "dars qachon boshlanadi", ru: "Когда начинается занятие?", back: "dars qachon boshlanadi?", alt: ["dars qachon"] },
+      { uz: "tanaffus bo‘ladimi", ru: "Будет перерыв?", back: "tanaffus bo‘ladimi?", alt: ["pereriv"] },
+      { uz: "shu yerda xato chiqdi", ru: "Здесь выходит ошибка", back: "shu yerda xato chiqyapti", alt: ["xato chiqdi", "oshibka"] },
+      { uz: "dastur ochilmayapti", ru: "Программа не открывается", back: "dastur ochilmayapti" },
+      { uz: "bazani qayerdan yuklab olaman", ru: "Где скачать базу?", back: "bazani qayerdan yuklab olaman?", alt: ["baza qayerdan"] },
+      { uz: "parolni bering", ru: "Дайте пароль, пожалуйста", back: "iltimos, parolni bering", alt: ["parol"] },
+      { uz: "saqlashni unutdim", ru: "Я забыл сохранить", back: "saqlashni unutdim" },
+      { uz: "yordam bera olasizmi", ru: "Можете помочь?", back: "yordam bera olasizmi?" },
+      { uz: "keyinroq savol bersam bo‘ladimi", ru: "Можно задать вопрос позже?", back: "keyinroq savol bersam bo‘ladimi?" },
+    ],
+  },
+  {
+    id: "atama",
+    name: "1C atamalari",
+    items: [
+      { uz: "spravochnik", ru: "Справочник", back: "ma’lumotnoma — mijozlar, tovarlar ro‘yxati", alt: ["malumotnoma"] },
+      { uz: "hujjat 1c", ru: "Документ", back: "hujjat — operatsiyani qayd qiluvchi yozuv" },
+      { uz: "hujjatlar jurnali", ru: "Журнал документов", back: "hujjatlar jurnali" },
+      { uz: "registr", ru: "Регистр сведений", back: "ma’lumotlar registri — o‘zgarmas ma’lumot saqlanadi" },
+      { uz: "toplanma registr", ru: "Регистр накопления", back: "to‘planma registr — qoldiq va aylanma" },
+      { uz: "buxgalteriya registri", ru: "Регистр бухгалтерии", back: "buxgalteriya registri" },
+      { uz: "provodka", ru: "Проводка", back: "provodka — schyotlar bo‘yicha yozuv" },
+      { uz: "schyotlar rejasi", ru: "План счетов", back: "schyotlar rejasi" },
+      { uz: "subkonto", ru: "Субконто", back: "subkonto — analitik kesim" },
+      { uz: "nomenklatura", ru: "Номенклатура", back: "nomenklatura — tovar va xizmatlar ro‘yxati" },
+      { uz: "kontragent", ru: "Контрагент", back: "kontragent — mijoz yoki yetkazib beruvchi" },
+      { uz: "ombor 1c", ru: "Склад", back: "ombor" },
+      { uz: "qoldiq 1c", ru: "Остаток", back: "qoldiq" },
+      { uz: "kirim", ru: "Приход", back: "kirim — tovar kelishi" },
+      { uz: "chiqim", ru: "Расход", back: "chiqim — tovar chiqishi" },
+      { uz: "tannarx", ru: "Себестоимость", back: "tannarx" },
+      { uz: "partiya", ru: "Партия", back: "partiya — bir xil narxdagi tovar to‘plami" },
+      { uz: "olchov birligi", ru: "Единица измерения", back: "o‘lchov birligi (dona, kg, litr)" },
+      { uz: "hisobot", ru: "Отчёт", back: "hisobot" },
+      { uz: "ishlov", ru: "Обработка", back: "ishlov — maxsus vazifa bajaruvchi dastur" },
+      { uz: "konfigurator", ru: "Конфигуратор", back: "konfigurator — dastur tahrirlanadigan rejim" },
+      { uz: "konfiguratsiya", ru: "Конфигурация", back: "konfiguratsiya — dasturning tuzilishi" },
+      { uz: "kengaytma", ru: "Расширение", back: "kengaytma — asosiy dasturga tegmay qo‘shimcha qilish" },
+      { uz: "yangilanish 1c", ru: "Обновление", back: "yangilanish" },
+      { uz: "malumotlar bazasi", ru: "База данных", back: "ma’lumotlar bazasi" },
+      { uz: "sorov", ru: "Запрос", back: "so‘rov — bazadan ma’lumot olish" },
+      { uz: "sorovlar tili", ru: "Язык запросов", back: "so‘rovlar tili" },
+      { uz: "modul", ru: "Модуль", back: "modul — kod yoziladigan joy" },
+      { uz: "protsedura", ru: "Процедура", back: "protsedura — javob qaytarmaydigan kod bo‘lagi" },
+      { uz: "funksiya", ru: "Функция", back: "funksiya — javob qaytaradigan kod bo‘lagi" },
+      { uz: "forma", ru: "Форма", back: "forma — ekrandagi ko‘rinish" },
+      { uz: "boshqariladigan forma", ru: "Управляемые формы", back: "boshqariladigan formalar" },
+      { uz: "rekvizit", ru: "Реквизит", back: "rekvizit — maydon (masalan: sana, summa)" },
+      { uz: "jadval qismi", ru: "Табличная часть", back: "jadval qismi — hujjatdagi qatorlar" },
+      { uz: "sanab otilgan", ru: "Перечисление", back: "sanab o‘tilgan ro‘yxat — tayyor variantlar" },
+      { uz: "rol", ru: "Роль", back: "rol — foydalanuvchi huquqlari to‘plami" },
+      { uz: "kirish huquqlari", ru: "Права доступа", back: "kirish huquqlari" },
+      { uz: "foydalanuvchi", ru: "Пользователь", back: "foydalanuvchi" },
+      { uz: "reglament vazifa", ru: "Регламентное задание", back: "reglament vazifa — avtomatik bajariladigan ish" },
+      { uz: "hujjatni otkazish", ru: "Проведение документа", back: "hujjatni o‘tkazish — hisobga olish" },
+      { uz: "otkazishni bekor qilish", ru: "Распроведение", back: "o‘tkazishni bekor qilish" },
+      { uz: "oyni yopish", ru: "Закрытие месяца", back: "oyni yopish" },
+      { uz: "aylanma saldo", ru: "Оборотно-сальдовая ведомость", back: "aylanma-saldo qaydnomasi" },
+      { uz: "asosiy vositalar", ru: "Основные средства", back: "asosiy vositalar (OS)" },
+      { uz: "qqs", ru: "НДС", back: "QQS — qo‘shilgan qiymat solig‘i" },
+      { uz: "otladchik", ru: "Отладчик", back: "otladchik — xatoni qidirish vositasi" },
+      { uz: "toxtash nuqtasi", ru: "Точка останова", back: "to‘xtash nuqtasi — kodni shu yerda to‘xtatadi" },
+      { uz: "chop etish shakli", ru: "Печатная форма", back: "chop etish shakli" },
+      { uz: "mijoz buyurtmasi", ru: "Заказ клиента", back: "mijoz buyurtmasi" },
+      { uz: "tovar kelishi", ru: "Поступление товаров", back: "tovar kelib tushishi" },
+      { uz: "tovar sotilishi", ru: "Реализация товаров", back: "tovar sotilishi" },
+    ],
+  },
+  {
     id: "dokon",
     name: "Do‘kon / Bozor",
-    color: "var(--color-m-green)",
     items: [
       { uz: "bu qancha turadi", ru: "Сколько это стоит?", back: "bu qancha turadi?", alt: ["qancha turadi", "narxi qancha", "bu qancha"] },
       { uz: "arzonroq bo‘ladimi", ru: "Можно подешевле?", back: "arzonroq bo‘ladimi?", alt: ["arzonroq", "chegirma bormi"] },
@@ -89,7 +173,6 @@ const SEED: CategorySeed[] = [
   {
     id: "yol",
     name: "Yo‘l / Metro",
-    color: "var(--color-m-blue)",
     items: [
       { uz: "metro qayerda", ru: "Где метро?", back: "metro qayerda?", alt: ["metro qayerda joylashgan"] },
       { uz: "men qayerdaman", ru: "Где я нахожусь?", back: "men qayerdaman?", alt: ["bu yer qayer"] },
@@ -109,7 +192,6 @@ const SEED: CategorySeed[] = [
   {
     id: "ovqat",
     name: "Ovqat",
-    color: "var(--color-m-orange)",
     items: [
       { uz: "menyu bering", ru: "Дайте меню, пожалуйста", back: "iltimos, menyu bering", alt: ["menyu"] },
       { uz: "hisob bering", ru: "Счёт, пожалуйста", back: "iltimos, hisob bering", alt: ["hisob", "schyot"] },
@@ -126,7 +208,6 @@ const SEED: CategorySeed[] = [
   {
     id: "ish",
     name: "Ish / Hujjat",
-    color: "var(--color-m-brown)",
     items: [
       { uz: "men ish qidiryapman", ru: "Я ищу работу", back: "men ish qidiryapman", alt: ["ish qidiryapman", "ish kerak"] },
       { uz: "ish haqi qancha", ru: "Какая зарплата?", back: "ish haqi qancha?", alt: ["oylik qancha", "zarplata qancha"] },
@@ -144,7 +225,6 @@ const SEED: CategorySeed[] = [
   {
     id: "shifokor",
     name: "Shifokor",
-    color: "var(--color-m-purple)",
     items: [
       { uz: "tez yordam chaqiring", ru: "Вызовите скорую!", back: "tez yordam chaqiring!", alt: ["skoriy"] },
       { uz: "shifokor chaqiring", ru: "Вызовите врача, пожалуйста", back: "iltimos, shifokor chaqiring", alt: ["shifokor kerak"] },
@@ -159,7 +239,6 @@ const SEED: CategorySeed[] = [
   {
     id: "vaqt",
     name: "Raqam / Vaqt",
-    color: "var(--color-m-cyan)",
     items: [
       { uz: "soat necha", ru: "Сколько времени?", back: "soat necha bo‘ldi?", alt: ["soat nechchi"] },
       { uz: "biroz kuting", ru: "Подождите немного, пожалуйста", back: "iltimos, biroz kuting", alt: ["kuting"] },

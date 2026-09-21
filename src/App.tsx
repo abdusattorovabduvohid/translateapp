@@ -3,7 +3,6 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { BookPanel } from "./components/BookPanel";
 import { Composer } from "./components/Composer";
 import { HistoryPanel } from "./components/HistoryPanel";
-import { Masthead } from "./components/Masthead";
 import { ResultPlate } from "./components/ResultPlate";
 import { SavedPanel } from "./components/SavedPanel";
 import { ShowOverlay } from "./components/ShowOverlay";
@@ -16,8 +15,11 @@ import { useOnline } from "./hooks/useOnline";
 
 import { dropSample } from "./lib/claude";
 import { CAN_SPEAK, copyText, speakRussian } from "./lib/device";
+import {
+  findRussianPhrase, looksRussian, lookupRussianWord, normalizeRu, russianWordByWord,
+} from "./lib/russian";
 import { errorCode, translateOnline } from "./lib/translate";
-import type { Entry, Translation } from "./lib/types";
+import { outputOf, type Direction, type Entry, type Translation } from "./lib/types";
 import {
   capitalize, findPhrase, lookupWord, normalize, PHRASE_COUNT, wordByWord,
 } from "./lib/uzbek";
@@ -25,7 +27,12 @@ import {
 const MAX_HISTORY = 25;
 const MAX_SAVED = 300;
 
-const FIRST: Translation = { ru: "Здравствуйте", uz: "assalomu alaykum", source: "book" };
+const FIRST: Translation = {
+  ru: "Здравствуйте",
+  uz: "assalomu alaykum",
+  direction: "uz-ru",
+  source: "book",
+};
 
 /** Xizmat butunlay yopilganini bildiruvchi xatolar */
 const FATAL = new Set(["not_granted", "sampling_disabled", "not_declared", "capability_disabled"]);
@@ -39,6 +46,48 @@ const MESSAGES: Record<string, string> = {
   refused: "Bu matn tarjima qilinmadi. Boshqacha yozib ko‘ring.",
 };
 
+/** Lug'atlardan bir zumda topiladigan javob (internetsiz ham ishlaydi) */
+function localLookup(text: string, direction: Direction): Translation | null {
+  if (direction === "uz-ru") {
+    const phrase = findPhrase(text);
+    if (phrase) return { ru: phrase.ru, uz: phrase.back, direction, source: "book" };
+
+    if (!text.includes(" ")) {
+      const word = lookupWord(text);
+      if (word) {
+        return { ru: capitalize(word), uz: text.toLowerCase(), direction, source: "words" };
+      }
+    }
+    return null;
+  }
+
+  const phrase = findRussianPhrase(text);
+  if (phrase) return { ru: phrase.ru, uz: phrase.back, direction, source: "book" };
+
+  if (!text.trim().includes(" ")) {
+    const word = lookupRussianWord(text);
+    if (word) return { ru: capitalize(text.trim()), uz: word, direction, source: "words" };
+  }
+  return null;
+}
+
+/** So'zma-so'z — internetsiz oxirgi chora */
+function roughLookup(text: string, direction: Direction): Translation | null {
+  if (direction === "uz-ru") {
+    const rough = wordByWord(text);
+    return rough ? { ru: rough.ru, uz: rough.uz, direction, source: "word" } : null;
+  }
+
+  const rough = russianWordByWord(text);
+  return rough ? { ru: text.trim(), uz: rough.out, direction, source: "word" } : null;
+}
+
+function isComplete(text: string, direction: Direction): boolean {
+  return direction === "uz-ru"
+    ? (wordByWord(text)?.complete ?? false)
+    : (russianWordByWord(text)?.complete ?? false);
+}
+
 export function App() {
   const online = useOnline();
   const install = useInstall();
@@ -50,6 +99,7 @@ export function App() {
   const [busy, setBusy] = useState(false);
   const [showing, setShowing] = useState(false);
 
+  const [direction, setDirection] = useLocalStorage<Direction>("mct.direction.v1", "uz-ru");
   const [saved, setSaved] = useLocalStorage<Entry[]>("mct.saved.v3", []);
   const [history, setHistory] = useLocalStorage<Entry[]>("mct.history.v3", []);
   const [tab, setTab] = useState<TabId>(() => (saved.length > 0 ? "saved" : "book"));
@@ -87,10 +137,9 @@ export function App() {
     [remember],
   );
 
-  /** Internetsiz oxirgi chora — so'zma-so'z */
   const fallback = useCallback(
-    (text: string, prefix = "") => {
-      const rough = wordByWord(text);
+    (text: string, dir: Direction, prefix = "") => {
+      const rough = roughLookup(text, dir);
       if (!rough) {
         setPending(null);
         setNote(
@@ -98,10 +147,10 @@ export function App() {
         );
         return;
       }
-      const tail = rough.complete
+      const tail = isComplete(text, dir)
         ? "So‘zma-so‘z tarjima — ma’nosi yetib boradi, lekin gap tuzilishi to‘liq to‘g‘ri bo‘lmasligi mumkin."
         : "So‘zma-so‘z tarjima — ba’zi so‘zlar lug‘atda yo‘q, o‘zgarmay qoldi.";
-      land({ ru: rough.ru, uz: rough.uz, source: "word" }, `${prefix} ${tail}`.trim());
+      land(rough, `${prefix} ${tail}`.trim());
     },
     [land],
   );
@@ -112,33 +161,44 @@ export function App() {
       if (!text) return;
       setNote("");
 
-      // 1 — tayyor gap
-      const phrase = findPhrase(text);
-      if (phrase) {
-        land({ ru: phrase.ru, uz: phrase.back, source: "book" });
+      // Yo'nalishni o'zi aniqlash — noto'g'ri tomonga yozib yuborilganda
+      let dir = direction;
+      let auto = "";
+      if (looksRussian(text)) {
+        if (dir !== "ru-uz") {
+          dir = "ru-uz";
+          setDirection(dir);
+          auto = "Ruscha matn — yo‘nalish o‘zi o‘zgartirildi.";
+        }
+      } else if (dir === "ru-uz" && !/[а-яё]/i.test(text)) {
+        dir = "uz-ru";
+        setDirection(dir);
+        auto = "O‘zbekcha matn — yo‘nalish o‘zi o‘zgartirildi.";
+      }
+
+      // 1 — tayyor gap yoki lug'atdagi so'z
+      const local = localLookup(text, dir);
+      if (local) {
+        land(local, auto);
         return;
       }
 
       // 2 — saqlangan gaplaringiz
-      const mine = saved.find((e) => normalize(e.uz) === normalize(text));
+      const mine = saved.find((e) =>
+        dir === "uz-ru"
+          ? normalize(e.uz) === normalize(text)
+          : normalizeRu(e.ru) === normalizeRu(text),
+      );
       if (mine) {
-        setResult({ ...mine, source: "mem" });
+        setResult({ ...mine, direction: dir, source: "mem" });
         setPending(null);
+        setNote(auto);
         return;
       }
 
-      // 3 — bitta so'z bo'lsa, so'zlar lug'atidan (bir zumda, internetsiz)
-      if (!text.includes(" ")) {
-        const word = lookupWord(text);
-        if (word) {
-          land({ ru: capitalize(word), uz: text.toLowerCase(), source: "words" });
-          return;
-        }
-      }
-
-      // 4 — internet yo'q bo'lsa, kutmay so'zma-so'zga o'tamiz
+      // 3 — internet yo'q bo'lsa, kutmay so'zma-so'zga o'tamiz
       if (!online) {
-        fallback(text);
+        fallback(text, dir, auto);
         return;
       }
 
@@ -150,13 +210,12 @@ export function App() {
       setPending("O‘ylanmoqda…");
 
       try {
-        const net = await translateOnline(text, controller.signal);
-        land(
-          { ...net, uz: net.uz || text.toLowerCase() },
+        const net = await translateOnline(text, dir, controller.signal);
+        const hint =
           net.source === "web"
             ? "Oddiy tarjima — ma’nosi to‘g‘ri, lekin uslubi quruqroq bo‘lishi mumkin."
-            : "",
-        );
+            : "";
+        land(net, `${auto} ${hint}`.trim());
       } catch (err) {
         const code = errorCode(err);
         if (code === "cancelled") return;
@@ -164,12 +223,13 @@ export function App() {
 
         if (MESSAGES[code]) {
           setPending(null);
-          setNote(MESSAGES[code]);
+          setNote(`${auto} ${MESSAGES[code]}`.trim());
           return;
         }
 
         fallback(
           text,
+          dir,
           code === "slow"
             ? "Internet sekin yoki yopiq — telefonning o‘z lug‘ati bilan tarjima qildim."
             : "Internetga chiqib bo‘lmadi — telefonning o‘z lug‘ati bilan tarjima qildim.",
@@ -179,16 +239,19 @@ export function App() {
         setBusy(false);
       }
     },
-    [fallback, land, online, saved],
+    [direction, fallback, land, online, saved, setDirection],
   );
 
-  const pick = useCallback((entry: Entry, source: Translation["source"], fill?: string) => {
-    if (fill) setInput(fill);
-    setResult({ ru: entry.ru, uz: entry.uz, source });
-    setPending(null);
-    setNote("");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  const pick = useCallback(
+    (entry: Entry, source: Translation["source"], fill?: string) => {
+      if (fill) setInput(fill);
+      setResult({ ru: entry.ru, uz: entry.uz, direction, source });
+      setPending(null);
+      setNote("");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    [direction],
+  );
 
   const importSaved = useCallback(
     (entries: Entry[]): number => {
@@ -212,9 +275,7 @@ export function App() {
 
   return (
     <>
-      <div className="mx-auto flex max-w-[580px] flex-col gap-4.5 px-4 pt-5.5 pb-15">
-        <Masthead />
-
+      <div className="mx-auto flex max-w-[580px] flex-col gap-4.5 px-4 pt-4 pb-15">
         <StatusStrip online={online} />
 
         <Composer
@@ -222,10 +283,12 @@ export function App() {
           onChange={setInput}
           onSubmit={() => void translate(input)}
           busy={busy}
+          direction={direction}
+          onDirection={setDirection}
         />
 
         {note && (
-          <p className="bg-surface-2 border-brass-line text-ink m-0 rounded-xl border px-3.5 py-2.5 text-[0.86rem]">
+          <p className="bg-surface-2 border-accent-line text-ink m-0 rounded-xl border px-3.5 py-2.5 text-[0.86rem]">
             {note}
           </p>
         )}
@@ -238,7 +301,7 @@ export function App() {
           onShow={() => setShowing(true)}
           onSpeak={() => speakRussian(result.ru)}
           onSave={() => toggleSave(result.ru, result.uz)}
-          onCopy={() => void copyText(result.ru)}
+          onCopy={() => void copyText(outputOf(result))}
         />
 
         <Tabs
@@ -261,7 +324,7 @@ export function App() {
         {tab === "book" && (
           <BookPanel
             isSaved={isSaved}
-            onPick={(p) => pick({ ru: p.ru, uz: p.back }, "book", p.uz)}
+            onPick={(p) => pick({ ru: p.ru, uz: p.back }, "book", direction === "uz-ru" ? p.uz : p.ru)}
             onToggleSave={toggleSave}
           />
         )}
@@ -281,7 +344,7 @@ export function App() {
             <button
               type="button"
               onClick={install.install}
-              className="border-brass-line text-brass inline-flex min-h-10 items-center rounded-xl border px-4 text-[0.85rem] font-semibold"
+              className="border-accent-line text-accent inline-flex min-h-10 items-center rounded-xl border px-4 text-[0.85rem] font-semibold"
             >
               Telefonga o‘rnatish
             </button>

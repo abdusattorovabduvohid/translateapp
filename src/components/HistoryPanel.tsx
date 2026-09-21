@@ -40,7 +40,6 @@ export function HistoryPanel({
               key={e.ru}
               ru={e.ru}
               uz={e.uz}
-              color="var(--line)"
               saved={isSaved(e.ru)}
               onPick={() => onPick(e)}
               onToggleSave={() => onToggleSave(e.ru, e.uz)}

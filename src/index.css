@@ -2,6 +2,7 @@
 
 /* ==========================================================================
    Shriftlar ilova ichida turadi — Google'ga chiqmaydi, internetsiz ishlaydi.
+   Golos Text — ruscha satr uchun, Manrope — qolgan hamma joyda.
    ========================================================================== */
 @font-face {
   font-family: "Golos Text";
@@ -40,116 +41,68 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
     U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+FEFF, U+FFFD;
 }
-@font-face {
-  font-family: "Oswald";
-  src: url("./fonts/oswald-cyr.woff2") format("woff2");
-  font-weight: 400 600;
-  font-display: swap;
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-@font-face {
-  font-family: "Oswald";
-  src: url("./fonts/oswald-lat.woff2") format("woff2");
-  font-weight: 400 600;
-  font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
-    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+FEFF, U+FFFD;
-}
 
 /* ==========================================================================
-   Palitra — Moskva metro emal plastinkasi: marmar, lak, guruch.
+   Palitra — sokin ko'k. Bitta urg'u rangi, qolgani kul rang.
    Uch holat: yorug', tizim qorong'isi, qo'lda tanlangan qorong'i.
    ========================================================================== */
 :root {
-  --ground: #e7e9ef;
+  --ground: #eef1f6;
   --surface: #ffffff;
-  --surface-2: #f1f3f8;
+  --surface-2: #f4f6fa;
   --plate: #ffffff;
-  --plate-2: #f7f8fb;
-  --ink: #0e1526;
-  --muted: #4d5872;
-  --faint: #7c889f;
-  --brass: #8a6516;
-  --brass-2: #b08a35;
-  --brass-line: #d8c08a;
-  --on-brass: #ffffff;
-  --line: #d7dbe6;
-  --line-soft: #e4e7ef;
+  --ink: #16202f;
+  --muted: #4f5c70;
+  --faint: #7d8899;
+  --accent: #1f5fb5;
+  --accent-soft: #3d7ccc;
+  --accent-line: #c6d7ee;
+  --on-accent: #ffffff;
+  --line: #dbe1ea;
+  --line-soft: #e9edf3;
   --ok: #1d6b4f;
-  --warn: #fcf3e0;
-  --shade: rgba(14, 21, 38, 0.09);
-
-  --m-red: #c8102e;
-  --m-green: #2f8f3f;
-  --m-blue: #12539c;
-  --m-cyan: #128fbf;
-  --m-brown: #8a4a2f;
-  --m-orange: #d9741a;
-  --m-purple: #7e3580;
-
-  --plate-shadow: 0 1px 1px rgba(14, 21, 38, 0.05), 0 10px 30px -12px rgba(14, 21, 38, 0.28);
+  --tint: #eaf1fb;
+  --plate-shadow: 0 1px 2px rgba(22, 32, 47, 0.05);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --ground: #090e1a;
-    --surface: #101827;
-    --surface-2: #151e30;
-    --plate: #121c31;
-    --plate-2: #0d1526;
-    --ink: #f3f0e7;
-    --muted: #9caac4;
-    --faint: #6c7b98;
-    --brass: #dcae55;
-    --brass-2: #b98f3d;
-    --brass-line: #6b5525;
-    --on-brass: #0b1120;
-    --line: #21304f;
-    --line-soft: #1a2640;
+    --ground: #0d131c;
+    --surface: #151d28;
+    --surface-2: #1a2330;
+    --plate: #16202c;
+    --ink: #e8edf4;
+    --muted: #9aa7b8;
+    --faint: #6f7d90;
+    --accent: #6ea4f0;
+    --accent-soft: #5a91dd;
+    --accent-line: #2b3d55;
+    --on-accent: #0b1220;
+    --line: #24303f;
+    --line-soft: #1d2837;
     --ok: #5bc79a;
-    --warn: #241d0f;
-    --shade: rgba(0, 0, 0, 0.5);
-
-    --m-red: #ef5f7f;
-    --m-green: #5dc06a;
-    --m-blue: #5896de;
-    --m-cyan: #4fc3e8;
-    --m-brown: #c17c59;
-    --m-orange: #f0a04f;
-    --m-purple: #bf7ec2;
-
-    --plate-shadow: 0 1px 1px rgba(0, 0, 0, 0.4), 0 18px 40px -16px rgba(0, 0, 0, 0.75);
+    --tint: #16222f;
+    --plate-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
 }
 
 :root[data-theme="dark"] {
-  --ground: #090e1a;
-  --surface: #101827;
-  --surface-2: #151e30;
-  --plate: #121c31;
-  --plate-2: #0d1526;
-  --ink: #f3f0e7;
-  --muted: #9caac4;
-  --faint: #6c7b98;
-  --brass: #dcae55;
-  --brass-2: #b98f3d;
-  --brass-line: #6b5525;
-  --on-brass: #0b1120;
-  --line: #21304f;
-  --line-soft: #1a2640;
+  --ground: #0d131c;
+  --surface: #151d28;
+  --surface-2: #1a2330;
+  --plate: #16202c;
+  --ink: #e8edf4;
+  --muted: #9aa7b8;
+  --faint: #6f7d90;
+  --accent: #6ea4f0;
+  --accent-soft: #5a91dd;
+  --accent-line: #2b3d55;
+  --on-accent: #0b1220;
+  --line: #24303f;
+  --line-soft: #1d2837;
   --ok: #5bc79a;
-  --warn: #241d0f;
-  --shade: rgba(0, 0, 0, 0.5);
-
-  --m-red: #ef5f7f;
-  --m-green: #5dc06a;
-  --m-blue: #5896de;
-  --m-cyan: #4fc3e8;
-  --m-brown: #c17c59;
-  --m-orange: #f0a04f;
-  --m-purple: #bf7ec2;
-
-  --plate-shadow: 0 1px 1px rgba(0, 0, 0, 0.4), 0 18px 40px -16px rgba(0, 0, 0, 0.75);
+  --tint: #16222f;
+  --plate-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Tailwind tokenlari — yuqoridagi o'zgaruvchilarga ishora qiladi,
@@ -159,29 +112,20 @@
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --color-plate: var(--plate);
-  --color-plate-2: var(--plate-2);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-faint: var(--faint);
-  --color-brass: var(--brass);
-  --color-brass-2: var(--brass-2);
-  --color-brass-line: var(--brass-line);
-  --color-on-brass: var(--on-brass);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-line: var(--accent-line);
+  --color-on-accent: var(--on-accent);
   --color-line: var(--line);
   --color-line-soft: var(--line-soft);
   --color-ok: var(--ok);
-  --color-warn: var(--warn);
-
-  --color-m-red: var(--m-red);
-  --color-m-green: var(--m-green);
-  --color-m-blue: var(--m-blue);
-  --color-m-cyan: var(--m-cyan);
-  --color-m-brown: var(--m-brown);
-  --color-m-orange: var(--m-orange);
-  --color-m-purple: var(--m-purple);
+  --color-tint: var(--tint);
 
   --font-sans: "Manrope", "Segoe UI", system-ui, sans-serif;
-  --font-display: "Oswald", "Manrope", sans-serif;
+  --font-display: "Manrope", "Segoe UI", system-ui, sans-serif;
   --font-ru: "Golos Text", "Manrope", sans-serif;
 
   --shadow-plate: var(--plate-shadow);
@@ -194,10 +138,7 @@
 
   body {
     margin: 0;
-    background:
-      radial-gradient(120% 60% at 50% 0%, var(--surface-2) 0%, transparent 62%),
-      var(--ground);
-    background-attachment: fixed;
+    background: var(--ground);
     color: var(--ink);
     font-family: var(--font-sans);
     font-size: 16px;
@@ -212,37 +153,12 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--brass-2);
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
 }
 
 @layer components {
-  /* Emal plastinka: ichki guruch hoshiya */
-  .plate-frame::before {
-    content: "";
-    position: absolute;
-    inset: 6px;
-    border: 1px solid var(--brass-line);
-    border-radius: 12px;
-    pointer-events: none;
-    opacity: 0.55;
-  }
-
-  /* Metro liniyalari chizig'i */
-  .metro-rail {
-    background: linear-gradient(
-      90deg,
-      var(--m-red) 0 14%,
-      var(--m-orange) 14% 28%,
-      var(--m-green) 28% 43%,
-      var(--m-cyan) 43% 57%,
-      var(--m-blue) 57% 72%,
-      var(--m-purple) 72% 86%,
-      var(--m-brown) 86% 100%
-    );
-  }
-
   .no-scrollbar {
     scrollbar-width: none;
   }
@@ -260,7 +176,7 @@
 @keyframes settle {
   from {
     opacity: 0;
-    transform: translateY(7px);
+    transform: translateY(5px);
   }
   to {
     opacity: 1;
@@ -269,7 +185,7 @@
 }
 
 .animate-settle {
-  animation: settle 0.32s ease-out;
+  animation: settle 0.26s ease-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
