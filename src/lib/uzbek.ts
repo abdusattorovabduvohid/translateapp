@@ -112,3 +112,11 @@ export function wordByWord(text: string): WordByWord | null {
 export function capitalize(text: string): string {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
+
+/**
+ * Fe'l o'zagini ko'rsatsa bo'ladigan shaklga keltiradi: "bor-" → "bormoq".
+ * WORDS lug'atida fe'llar o'zak ko'rinishida turadi.
+ */
+export function verbForm(uz: string): string {
+  return uz.endsWith("-") ? `${uz.slice(0, -1)}moq` : uz;
+}

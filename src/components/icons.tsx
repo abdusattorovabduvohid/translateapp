@@ -50,3 +50,13 @@ export function ChevronIcon({ className = "h-4 w-4 shrink-0" }: IconProps) {
     </svg>
   );
 }
+
+export function MicIcon({ className = base }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
+      strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <rect x="9" y="3" width="6" height="11" rx="3" />
+      <path d="M5.5 11.5a6.5 6.5 0 0013 0M12 18v3" />
+    </svg>
+  );
+}

@@ -1,5 +1,6 @@
 import { PHRASES, type Phrase } from "../data/phrasebook";
 import { WORDS } from "../data/words";
+import { verbForm } from "./uzbek";
 
 /** Ruscha matnni solishtirishga tayyorlaydi (ё → е, tinish belgilarisiz) */
 export function normalizeRu(input: string): string {
@@ -9,11 +10,6 @@ export function normalizeRu(input: string): string {
     .replace(/[^а-я0-9 ]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
-}
-
-/** "bor-" → "bormoq" (fe'l o'zagini ko'rsatib bo'ladigan shaklga keltiradi) */
-function readable(uz: string): string {
-  return uz.endsWith("-") ? `${uz.slice(0, -1)}moq` : uz;
 }
 
 /* ------------------------------------------------------------------ */
@@ -43,7 +39,7 @@ const ambiguous = new Set<string>();
 for (const [uz, ru] of Object.entries(WORDS)) {
   const key = normalizeRu(ru);
   if (!key) continue;
-  const value = readable(uz);
+  const value = verbForm(uz);
   if (!RU_WORDS.has(key)) RU_WORDS.set(key, value);
 
   // O'zak boshlari faqat bitta so'zli tarjimalar uchun

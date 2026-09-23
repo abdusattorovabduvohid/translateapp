@@ -21,6 +21,8 @@ ilova matnni tanib, yo'nalishni **o'zi to'g'irlaydi**.
 
 **Texnologiya:** React 19 · TypeScript · Vite 7 · Tailwind CSS 4 · PWA (Workbox)
 
+Ikki rejim: **Tarjima** va **O‘rganish** (5 kunlik rus tili kursi).
+
 ---
 
 ## Internetsiz ishlaydi
@@ -57,8 +59,45 @@ Lug'atda ikkita alohida bo'lim bor:
 
   Darsda notanish atama eshitsangiz — «Rus → O'zb» rejimida yozasiz, izohi chiqadi.
 
+---
+
+## «O'rganish» rejimi — 5 kunlik kurs
+
+Tarjimon gapni *siz uchun* yozadi. O'rganish rejimi esa *o'zingiz* yoza olishni o'rgatadi.
+Shuning uchun hamma mashq **o'zbekcha → ruscha** yo'nalishida: teskarisini siz allaqachon
+uddalaysiz.
+
+| Kun | Mavzu | Natija |
+|---|---|---|
+| 1 | Og'iz ochish | Salomlashasiz, o'zingizni tanishtirasiz, «tushunmadim» deysiz |
+| 2 | So'rash | нужно · можно · хочу bilan har narsani so'raysiz |
+| 3 | 1C darsida | Darsda savol berasiz, atama ma'nosini so'raysiz |
+| 4 | Muammo va vaqt | Xato haqida aytasiz, narx va vaqtni tushunasiz |
+| 5 | Hammasi birga | Takrorlash + «Birinchi kun ro'yxati» |
+
+**Mashq turlari** — 684 ta karta mavjud lug'atdan yasaladi, mazmun takrorlanmaydi:
+
+- **Tanlash** — 4 ta ruschadan to'g'risini tanlaysiz
+- **Yozish** — kirillda yozasiz; imlo xatosi kechiriladi, farq so'z darajasida ko'rsatiladi
+- **Gapirish** — mikrofonga aytasiz, telefon eshitib tekshiradi *(internet kerak)*;
+  mikrofon yo'q bo'lsa o'zingiz baholaysiz — mashq yo'qolmaydi
+- **Eshitish** — ovozda o'qiladi, ma'nosini tanlaysiz
+- **Qolip** — `Мне нужно ___` kabi 12 ta qolip, 90 ta gap
+- **Dialog** — 6 ta rolli suhbat (dars, taksi, ofis, tanaffus)
+- **Qoida** — 9 ta grammatika kartasi o'zbekcha izoh bilan
+
+**Kirill klaviaturasi yo'qmi?** Lotinda yozing — ilova o'zi kirillga o'giradi va
+to'g'ri deb qabul qiladi: `spasibo` → `спасибо`, `pozhaluysta` → `пожалуйста`.
+
+**Takrorlash (SRS)** — Leitner qutilari, 5 kunga siqilgan: 10 daqiqa → 45 daqiqa →
+3 soat → 1 kun → 2 kun. Xato qilinsa karta birinchi qutiga tushadi va shu sessiyada
+yana chiqadi.
+
+---
+
 ## Nimalar bor
 
+- **Ikki rejim** — yuqoridagi tugmadan «Tarjima» / «O'rganish».
 - **Yo'nalish tugmasi** — «O'zb → Rus» / «Rus → O'zb», tanlovingiz eslab qolinadi.
 - **★ Saqlash** — doimiy ishlatadigan gaplaringiz «Saqlangan» bo'limida turadi.
 - **Zaxira** — saqlangan gaplarni matn qilib nusxalaysiz (Telegramga tashlang), keyin tiklaysiz.
@@ -75,23 +114,43 @@ src/
   data/
     phrasebook.ts       tayyor gaplar (kategoriyalar bilan)
     words.ts            so'zlar lug'ati
+    patterns.ts         12 ta gap qolipi, 90 ta gap
+    grammar.ts          9 ta grammatika kartasi
+    dialogues.ts        6 ta rolli dialog
+    curriculum.ts       5 kunlik reja (faqat havolalar, yangi matn yo'q)
   lib/
     uzbek.ts            kirill→lotin, indeks, qo'shimcha kesish, so'zma-so'z
     russian.ts          teskari indeks, ruscha o'zak, yo'nalishni aniqlash
     translate.ts        onlayn zanjir + VPN uchun vaqt cheki
     claude.ts           claude.ai ichidagi sample imkoniyati
-    device.ts           ovoz va nusxa olish
-    types.ts
+    device.ts           ovoz va nusxa olish (internetsiz)
+    speech.ts           mikrofon (internet kerak)
+    cards.ts            lug'atlardan kartalar yasaydi
+    steps.ts            kurs qadamini kartalarga aylantiradi
+    srs.ts              Leitner qutilari
+    check.ts            javob tekshiruvi + lotin→kirill + farq
+    drills.ts           savollar navbati, chalg'ituvchi variantlar
+    rng.ts              urug'li tasodif
+    types.ts  learnTypes.ts
   hooks/
     useLocalStorage.ts  useOnline.ts  useInstall.ts
-  components/           Composer, DirectionSwitch, ResultPlate, PhraseRow,
-                        BookPanel, SavedPanel, HistoryPanel, Tabs, ShowOverlay …
+    useSrs.ts  useLearnProgress.ts  useSpeechRecognition.ts  useBackButton.ts
+  screens/
+    Translator.tsx      tarjimon rejimi
+    Learn.tsx           o'rganish rejimi (kunlar → qadamlar → sessiya)
+  components/           ModeSwitch, Composer, DirectionSwitch, ResultPlate …
+    learn/              DrillSession, ChoiceDrill, TypingDrill, SpeakDrill,
+                        PatternDrill, DialogueDrill, CheatCard, AnswerFeedback,
+                        SessionSummary
   fonts/                woff2 (Vite bundle qiladi)
   index.css             palitra (3 ta mavzu holati) + Tailwind tokenlari
   App.tsx  main.tsx
 api/translate.js        Vercel serverless tarjima (ixtiyoriy)
 scripts/make-artifact.mjs
 ```
+
+Saqlanadigan kalitlar: `mct.mode.v1`, `mct.direction.v1`, `mct.saved.v3`,
+`mct.history.v3`, `mct.srs.v1`, `mct.learn.v1`.
 
 ### Buyruqlar
 
